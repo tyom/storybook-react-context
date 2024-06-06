@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "target": "es5",
+    "lib": ["es2017", "dom"],
+    "outDir": "dist"
+  },
+  "include": ["./src"],
+  "exclude": ["ist", "build", "node_modules"]
+}

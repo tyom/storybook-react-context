@@ -1,0 +1,48 @@
+{
+  "name": "storybook-react-context",
+  "version": "0.6.0",
+  "description": "Manipulate React context inside Storybook. Read state and dispatch updates from outside of React component.",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "del dist && tsc && pnpm --filter react-example build",
+    "watch": "del dist && tsc --watch",
+    "test": "testcafe chrome test/functional/*.test.js --app 'pnpm --filter react-example serve'"
+  },
+  "dependencies": {
+    "@storybook/addons": "^6.3.6",
+    "is-plain-object": "^5.0.0",
+    "react": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "del-cli": "^5.1.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^13.0.1",
+    "prettier": "2.6.2",
+    "testcafe": "^1.19.0",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1"
+  },
+  "keywords": [
+    "react",
+    "react-storybook",
+    "addon",
+    "context",
+    "storybook-addon",
+    "data-state"
+  ],
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "author": {
+    "name": "Tyom Semonov",
+    "email": "mail@tyom.net"
+  },
+  "license": "MIT"
+}
