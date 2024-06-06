@@ -1,86 +1,78 @@
-import React, { Reducer } from 'react';
-import { isPlainObject } from 'is-plain-object';
-import { makeDecorator, useArgs } from '@storybook/addons';
-import type { WrapperSettings } from '@storybook/addons';
-import { ADDON_ID, PARAM_KEY } from '.';
+import React from 'react';
+import { makeDecorator } from '@storybook/preview-api';
 
-type State = Record<string, unknown>;
-interface ContextOptions {
-  initialState?: State;
-  reducer?: Reducer<State, unknown>;
-  useProviderValue?: (initialState: State, args) => State;
-  Context?: React.Context<State>;
+type StoryContext = Parameters<Parameters<typeof makeDecorator>[0]['wrapper']>[1];
+
+type ContextOptions<T = unknown> = {
+  contextValue: (context: StoryContext) => T;
+  context: React.Context<T>;
+};
+
+interface DecoratorOptions extends Partial<ContextOptions> {
+  contexts?: ContextOptions[];
 }
 
-const DefaultContext = React.createContext({});
+type ContextValuesProps = {
+  children: (contextValues: unknown[]) => React.ReactNode;
+  contexts: ContextOptions[];
+};
+
+export const ContextValues = ({ children, contexts }: ContextValuesProps) => {
+  // Retrieve context values using explicit calls to useContext
+  const contextValues = contexts.map((item) => React.useContext(item.context));
+  return children(contextValues);
+};
 
 export const withReactContext = makeDecorator({
-  name: ADDON_ID,
-  parameterName: PARAM_KEY,
-  wrapper: (
-    storyFn,
-    context,
-    {
-      options = {},
-      parameters = {},
-    }: WrapperSettings & {
-      options: ContextOptions;
+  name: 'storybook-react-context',
+  parameterName: 'reactContext',
+  // options - decorator argument, parameters - story parameter
+  wrapper: (storyFn, storyContext, { options, parameters }) => {
+    const {
+      // `contexts` is for multiple contexts
+      contexts = [],
+      // `context` and `contextValue` are for single context and is appended to `contexts`
+      context,
+      contextValue,
+    } = { ...options, ...parameters } as DecoratorOptions;
+
+    const allContexts = [...contexts];
+
+    if (context && contextValue) {
+      allContexts.push({ context, contextValue });
     }
-  ) => {
-    if (options.reducer && typeof options.reducer !== 'function') {
-      throw new Error('Custom reducer argument must be a function');
-    }
-    if (options.useProviderValue && typeof options.useProviderValue !== 'function') {
-      throw new Error('useProviderValue hook must be a function');
-    }
-    if (options.reducer && options.useProviderValue) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        'Both custom reducer and useProviderValue hook are defined. Since both affect the provider value, only one should be used; otherwise, the useProviderValue takes priority.'
+
+    if (!allContexts.length) {
+      throw new Error(
+        `At least one context is required. Please provide it in decorator options or story parameters.
+        Either \`contexts\` for multiple contexts or both \`context\` and \`contextValue\` must be set.`,
       );
     }
 
-    const [args] = useArgs();
-    const { initialState, useProviderValue, reducer, Context } = {
-      ...options,
-      ...parameters,
-    };
-    const state = isPlainObject(initialState)
-      ? {
-          ...options.initialState,
-          ...parameters.initialState,
-        }
-      : initialState;
-
-    let providerValue = state;
-    if (useProviderValue) {
-      providerValue = useProviderValue?.(state, args);
-    } else if (reducer) {
-      providerValue = React.useReducer(reducer, state);
-    }
-
-    const LocalContext = Context || DefaultContext;
-
-    const ContextWrapper = ({ children }) => {
-      const ctx = React.useContext(LocalContext);
-
-      if (typeof children !== 'function') {
-        throw new Error('ContextWrapper children must be a function');
-      }
-      return children(ctx);
-    };
-
     return (
-      <LocalContext.Provider value={providerValue}>
-        <ContextWrapper>
-          {(ctx) =>
-            storyFn({
-              ...context,
-              context: ctx,
-            })
-          }
-        </ContextWrapper>
-      </LocalContext.Provider>
+      <>
+        {allContexts.reduceRight(
+          (acc, { context: Context, contextValue }) => {
+            const providerValue =
+              typeof contextValue === 'function'
+                ? contextValue(storyContext)
+                : contextValue;
+
+            return <Context.Provider value={providerValue}>{acc}</Context.Provider>;
+          },
+          <ContextValues contexts={allContexts}>
+            {(contextValues) =>
+              storyFn({
+                ...storyContext,
+                reactContext: {
+                  values: contextValues,
+                  value: contextValues[contextValues.length - 1],
+                },
+              }) as React.ReactElement
+            }
+          </ContextValues>,
+        )}
+      </>
     );
   },
 });

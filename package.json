@@ -4,27 +4,34 @@
   "description": "Manipulate React context inside Storybook. Read state and dispatch updates from outside of React component.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
-    "build": "del dist && tsc && pnpm --filter react-example build",
+    "build": "del dist && tsc",
     "watch": "del dist && tsc --watch",
-    "test": "testcafe chrome test/functional/*.test.js --app 'pnpm --filter react-example serve'"
+    "lint": "eslint && tsc --noEmit",
+    "test": "pnpm build && pnpm --filter react-example build && pnpm test:headless",
+    "test:chrome": "testcafe chrome test/functional/*.test.js --app 'pnpm --filter react-example serve'",
+    "test:headless": "testcafe chrome:headless test/functional/*.test.js --app 'pnpm --filter react-example serve'"
   },
   "dependencies": {
-    "@storybook/addons": "^6.3.6",
-    "is-plain-object": "^5.0.0",
-    "react": "^17.0.2"
+    "@storybook/preview-api": "^8.2.8"
   },
   "devDependencies": {
+    "@eslint/js": "^9.9.0",
     "@types/react": "^18.3.3",
     "del-cli": "^5.1.0",
-    "husky": "^9.0.11",
-    "lint-staged": "^13.0.1",
-    "prettier": "2.6.2",
-    "testcafe": "^1.19.0",
-    "typescript": "^5.3.3"
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0",
+    "husky": "^9.1.4",
+    "lint-staged": "^15.2.8",
+    "prettier": "3.3.3",
+    "testcafe": "^3.6.2",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.1.0"
   },
   "peerDependencies": {
-    "react": "^18.3.1"
+    "react": ">=18",
+    "react-dom": ">=18"
   },
   "keywords": [
     "react",
