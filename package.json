@@ -1,6 +1,6 @@
 {
   "name": "storybook-react-context",
-  "version": "0.6.0",
+  "version": "0.7.0-beta.1",
   "description": "Manipulate React context inside Storybook. Read state and dispatch updates from outside of React component.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
