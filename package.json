@@ -6,10 +6,12 @@
   "typings": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "del dist && tsc",
+    "build": "pnpm build:lib && pnpm build:example",
+    "build:lib": "del dist && tsc",
+    "build:example": "pnpm --filter react-example build",
     "watch": "del dist && tsc --watch",
     "lint": "eslint && tsc --noEmit",
-    "test": "pnpm build && pnpm --filter react-example build && pnpm test:headless",
+    "test": "pnpm build && pnpm test:headless",
     "test:chrome": "testcafe chrome test/functional/*.test.js --app 'pnpm --filter react-example serve'",
     "test:headless": "testcafe chrome:headless test/functional/*.test.js --app 'pnpm --filter react-example serve'"
   },

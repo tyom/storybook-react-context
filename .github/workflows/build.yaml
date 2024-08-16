@@ -1,0 +1,32 @@
+name: Build
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*.*'
+
+jobs:
+  build:
+    name: build and test
+    runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Lint source
+        run: pnpm lint
+
+      - name: Build packages and run tests
+        run: pnpm test

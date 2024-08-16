@@ -1,0 +1,50 @@
+name: Publish
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Configure npm authentication
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          # Extract tag without the 'v' prefix, e.g., 'v1.0.0' -> '1.0.0'
+          VERSION_TAG=${GITHUB_REF#refs/tags/v}
+
+          # Determine the npm dist-tag based on the version suffix
+          if [[ $VERSION_TAG == *"-alpha"* ]]; then
+            NPM_TAG="alpha"
+          elif [[ $VERSION_TAG == *"-beta"* ]]; then
+            NPM_TAG="beta"
+          elif [[ $VERSION_TAG == *"-rc"* ]]; then
+            NPM_TAG="rc"
+          else
+            NPM_TAG="latest"
+          fi
+
+          # Publish to npm with the extracted tag
+          pnpm publish --tag $NPM_TAG --no-git-checks
