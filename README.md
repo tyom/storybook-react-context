@@ -52,6 +52,9 @@ export default {
 };
 ```
 
+NB: Avoid using the same `context` parameter for `reactContext` as in the default export of the story. This will cause a
+maximum call stack size exceeded error. 
+
 ### Options
 
 `withReactContext` takes an argument which is an object with the following optional properties:
@@ -197,5 +200,9 @@ export const ThirdStory = {
   },
 };
 ```
+
+The `contextValue` function provides the story context as its first argument. This gives access to story args and other
+context values. In addition, the [useArgs hook](https://storybook.js.org/docs/writing-stories/args#setting-args-from-within-a-story)
+from `@storybook/preview-api` is exposed to access and update the args within the story.
 
 See the [example stories](https://github.com/tyom/storybook-react-context/tree/main/example/storybook-react-context.stories.tsx) for more.
