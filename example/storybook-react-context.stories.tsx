@@ -1,12 +1,12 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 import { withReactContext } from 'storybook-react-context';
-import { AuthContainer, Button, CountContainer } from './components';
+import { AuthStatus, Button, Counter } from './components';
 import { authReducer, AuthContext, CountContext } from './context';
 
 const initialAuthState = { authenticated: false };
 
-const meta: Meta = {
+export default {
   title: 'storybook-react-context',
   decorators: [withReactContext],
   parameters: {
@@ -14,8 +14,6 @@ const meta: Meta = {
     reactContext: { context: AuthContext },
   },
 };
-
-export default meta;
 
 export const ChangeOnEffect: StoryObj = {
   // destructure the contextValue on story context to get the dispatch function
@@ -34,17 +32,17 @@ export const ChangeOnEffect: StoryObj = {
     }, []);
 
     return (
-      <AuthContainer>
+      <AuthStatus>
         <p>Changing the context from story&rsquo;s useEffect.</p>
         <p className="text-center text-gray-400" id="loading-status">
           {loaded ? '✅ Loaded' : '⏳ Loading…'}
         </p>
-      </AuthContainer>
+      </AuthStatus>
     );
   },
   parameters: {
     reactContext: {
-      // set context value to the result of useReducer to manage the state outside of the component
+      // set context value to the result of useReducer to manage the state outside the component
       contextValue: () => React.useReducer(authReducer, initialAuthState),
     },
   },
@@ -56,10 +54,10 @@ export const ChangeOnInteraction: StoryObj = {
     const [[authState, setAuthState], { increment }] = reactContext.values;
     return (
       <>
-        <AuthContainer>
-          <CountContainer />
+        <AuthStatus>
+          <Counter />
           <p className="mb-5">Changing multiple contexts on interaction.</p>
-        </AuthContainer>
+        </AuthStatus>
         <div className="p-4 space-x-2 text-center">
           <Button
             id="auth-toggle-button"
@@ -76,7 +74,7 @@ export const ChangeOnInteraction: StoryObj = {
   },
   parameters: {
     reactContext: {
-      // set context value to the result of setState to manage the state outside of the component
+      // set context value to the result of setState to manage the state outside the component
       contexts: [
         {
           context: AuthContext,
@@ -96,9 +94,9 @@ export const ChangeOnInteraction: StoryObj = {
 
 export const StaticInitialContext: StoryObj = {
   render: () => (
-    <AuthContainer>
+    <AuthStatus>
       <p>Set static context from the story.</p>
-    </AuthContainer>
+    </AuthStatus>
   ),
   parameters: {
     reactContext: {
@@ -109,10 +107,10 @@ export const StaticInitialContext: StoryObj = {
 
 export const UpdateContextFromArgs: StoryObj = {
   render: () => (
-    <AuthContainer>
-      <CountContainer />
+    <AuthStatus>
+      <Counter />
       <p>Change context from Storybook Controls.</p>
-    </AuthContainer>
+    </AuthStatus>
   ),
   argTypes: {
     authenticated: {
