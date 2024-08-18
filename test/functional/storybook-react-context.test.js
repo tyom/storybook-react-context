@@ -1,3 +1,4 @@
+import { Selector } from 'testcafe';
 import page from './page-model';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5000';
@@ -62,4 +63,16 @@ test('React context is updated with Storybook Controls', async (t) => {
   await page.assertTextInPreview('#count-status', 'Count: 2');
   await t.typeText(page.controlsPanel.find('#control-count'), '10', { replace: true });
   await page.assertTextInPreview('#count-status', 'Count: 10');
+});
+
+test('React context is synced with Storybook Controls', async (t) => {
+  await page.selectSidebarItem('Sync Story Controls With Context');
+
+  await page.assertTextInPreview('#auth-status', 'Authenticated');
+  await t.expect(Selector('#control-authenticated').checked).eql(true);
+
+  await page.clickInPreview('#auth-toggle-button');
+
+  await page.assertTextInPreview('#auth-status', 'Unauthenticated');
+  await t.expect(Selector('#control-authenticated').checked).eql(false);
 });

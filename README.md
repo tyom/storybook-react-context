@@ -198,4 +198,4 @@ export const ThirdStory = {
 };
 ```
 
-See the [example stories](https://github.com/tyom/storybook-react-context/tree/main/example) for more.
+See the [example stories](https://github.com/tyom/storybook-react-context/tree/main/example/storybook-react-context.stories.tsx) for more.

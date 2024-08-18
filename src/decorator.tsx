@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeDecorator } from '@storybook/preview-api';
+import { makeDecorator, useArgs } from '@storybook/preview-api';
 
 type StoryContext = Parameters<Parameters<typeof makeDecorator>[0]['wrapper']>[1];
 
@@ -55,7 +55,7 @@ export const withReactContext = makeDecorator({
           (acc, { context: Context, contextValue }) => {
             const providerValue =
               typeof contextValue === 'function'
-                ? contextValue(storyContext)
+                ? contextValue({ ...storyContext, useArgs })
                 : contextValue;
 
             return <Context.Provider value={providerValue}>{acc}</Context.Provider>;

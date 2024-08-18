@@ -146,3 +146,38 @@ export const UpdateContextFromArgs: StoryObj = {
     },
   },
 };
+
+export const SyncStoryControlsWithContext: StoryObj = {
+  render: (_, { reactContext }) => {
+    const [authState, setAuthState] = reactContext.value;
+    return (
+      <>
+        <AuthStatus>
+          <p>Sync Storybook Controls with the context value using useArgs hook.</p>
+        </AuthStatus>
+        <div className="p-4 space-x-2 text-center">
+          <Button
+            id="auth-toggle-button"
+            onClick={() => setAuthState({ authenticated: !authState.authenticated })}
+          >
+            Toggle auth
+          </Button>
+        </div>
+      </>
+    );
+  },
+  argTypes: {
+    authenticated: {
+      name: 'Authenticated',
+      control: { type: 'boolean' },
+    },
+  },
+  args: { authenticated: true },
+  parameters: {
+    reactContext: {
+      // Set the context value to the result of Storybook's useArgs hook
+      // which allows to access and update the args in the story
+      contextValue: ({ useArgs }) => useArgs(),
+    },
+  },
+};
