@@ -35,6 +35,12 @@
     "react": ">=18",
     "react-dom": ">=18"
   },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
   "keywords": [
     "react",
     "react-storybook",
@@ -43,12 +49,11 @@
     "storybook-addon",
     "data-state"
   ],
-  "files": [
-    "dist/**/*",
-    "README.md",
-    "*.js",
-    "*.d.ts"
-  ],
+  "homepage": "https://github.com/tyom/storybook-react-context#readme",
+  "repository": "github:tyom/storybook-react-context",
+  "bugs": {
+    "url": "https://github.com/tyom/storybook-addons/issues"
+  },
   "author": {
     "name": "Tyom Semonov",
     "email": "mail@tyom.net"
