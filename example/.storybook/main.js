@@ -7,7 +7,6 @@ export default {
     name: '@storybook/react-vite',
     options: {},
   },
-  addons: ['@storybook/addon-essentials'],
   async viteFinal(config) {
     return mergeConfig(config, {
       plugins: [clearCachePlugin()],
