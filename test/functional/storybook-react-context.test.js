@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe';
 import page from './page-model';
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:5000';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:8000';
 
 const getUrlPath = (path = '') => BASE_URL + path;
 

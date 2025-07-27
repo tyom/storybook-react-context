@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeDecorator, useArgs } from '@storybook/preview-api';
+import { makeDecorator, useArgs } from 'storybook/preview-api';
 
 type StoryContext = Parameters<Parameters<typeof makeDecorator>[0]['wrapper']>[1];
 
