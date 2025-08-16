@@ -34,7 +34,7 @@ export const ChangeOnEffect: StoryObj = {
 
     return (
       <AuthStatus>
-        <p>Changing the context from story&rsquo;s useEffect.</p>
+        <p>Changing the context using story&rsquo;s useEffect.</p>
         <p className="text-center text-gray-400" id="loading-status">
           {loaded ? '✅ Loaded' : '⏳ Loading…'}
         </p>
