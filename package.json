@@ -21,7 +21,8 @@
     "version": "changeset version",
     "release": "pnpm build:lib && changeset publish",
     "prerelease": "changeset pre enter",
-    "prerelease:exit": "changeset pre exit"
+    "prerelease:exit": "changeset pre exit",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@changesets/changelog-github": "0.5.1",
