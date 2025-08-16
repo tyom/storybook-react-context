@@ -1,5 +1,5 @@
 ---
-"storybook-react-context": minor
+'storybook-react-context': minor
 ---
 
 Export TypeScript types and improve developer experience

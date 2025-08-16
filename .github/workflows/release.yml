@@ -52,14 +52,39 @@ jobs:
             npx changeset pre enter next
           fi
 
-      - name: Create Release Pull Request or Publish
-        id: changesets
+      - name: Create Release Pull Request (main only)
+        if: github.ref == 'refs/heads/main'
         uses: changesets/action@v1
         with:
           publish: pnpm release
           version: pnpm version
           commit: 'chore: release'
           title: 'chore: release'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish Pre-release (non-main branches)
+        if: github.ref != 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Version packages (pre-release mode already set in previous step)
+          npx changeset version
+
+          # Commit version changes
+          git add -A
+          git commit -m "chore: version packages (pre-release)" || echo "No changes to commit"
+
+          # Build and publish
+          pnpm build:lib
+
+          # Configure npm authentication
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+
+          # Publish to npm
+          npx changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
