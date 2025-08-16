@@ -20,7 +20,7 @@
     "changeset": "changeset",
     "version": "changeset version",
     "release": "pnpm build:lib && changeset publish",
-    "prerelease": "changeset pre enter",
+    "prerelease:enter": "changeset pre enter",
     "prerelease:exit": "changeset pre exit",
     "prepare": "husky"
   },

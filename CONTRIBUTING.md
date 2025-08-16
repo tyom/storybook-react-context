@@ -54,7 +54,7 @@ Releases are fully automated via GitHub Actions:
 
 For testing pre-releases locally:
 
-1. Enter pre-release mode: `pnpm prerelease beta` (or `alpha`, `next`)
+1. Enter pre-release mode: `pnpm prerelease:enter beta` (or `alpha`, `next`)
 2. Add changesets: `pnpm changeset`
 3. Version: `pnpm version` (creates versions like `0.8.1-beta.0`)
 4. Publish: `pnpm release` (publishes with appropriate npm tag)
@@ -87,5 +87,5 @@ If you need to release manually:
 - `pnpm changeset` - Add a changeset for your changes
 - `pnpm version` - Update versions based on changesets
 - `pnpm release` - Build and publish to npm
-- `pnpm prerelease <tag>` - Enter pre-release mode
+- `pnpm prerelease:enter <tag>` - Enter pre-release mode
 - `pnpm prerelease:exit` - Exit pre-release mode
