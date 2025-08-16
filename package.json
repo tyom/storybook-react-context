@@ -16,7 +16,12 @@
     "typecheck": "tsc --noEmit",
     "test": "pnpm build && pnpm test:headless",
     "test:chrome": "testcafe chrome test/functional/*.test.js --app 'pnpm --filter react-example serve'",
-    "test:headless": "testcafe chrome:headless test/functional/*.test.js --app 'pnpm --filter react-example serve'"
+    "test:headless": "testcafe chrome:headless test/functional/*.test.js --app 'pnpm --filter react-example serve'",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "pnpm build:lib && changeset publish",
+    "prerelease": "changeset pre enter",
+    "prerelease:exit": "changeset pre exit"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",

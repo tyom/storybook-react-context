@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      - next
+      - beta
+      - alpha
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build:lib
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Enter pre-release mode if not on main
+        if: github.ref != 'refs/heads/main'
+        run: |
+          # Determine pre-release tag from branch name
+          if [[ "${{ github.ref }}" == "refs/heads/alpha" ]]; then
+            npx changeset pre enter alpha
+          elif [[ "${{ github.ref }}" == "refs/heads/beta" ]]; then
+            npx changeset pre enter beta
+          elif [[ "${{ github.ref }}" == "refs/heads/next" ]]; then
+            npx changeset pre enter next
+          fi
+
+      - name: Create Release Pull Request or Publish
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: pnpm release
+          version: pnpm version
+          commit: 'chore: release'
+          title: 'chore: release'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
