@@ -7,6 +7,12 @@ on:
       - next
       - beta
       - alpha
+    paths-ignore:
+      - '**.md'
+      - 'example/**'
+      - '.github/workflows/**'
+      - '.husky/**'
+      - '.changeset/config.json'
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
