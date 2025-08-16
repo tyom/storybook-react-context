@@ -1,4 +1,5 @@
 import { Selector } from 'testcafe';
+
 import page from './page-model';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:8000';

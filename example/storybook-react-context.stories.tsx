@@ -1,8 +1,9 @@
-import * as React from 'react';
 import type { StoryObj } from '@storybook/react';
+import * as React from 'react';
 import { withReactContext } from 'storybook-react-context';
+
 import { AuthStatus, Button, Counter } from './components';
-import { authReducer, AuthContext, CountContext } from './context';
+import { AuthContext, authReducer, CountContext } from './context';
 
 const initialAuthState = { authenticated: false };
 

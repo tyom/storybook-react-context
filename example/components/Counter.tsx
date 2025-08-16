@@ -1,5 +1,6 @@
-import { useCount } from '../context';
 import * as React from 'react';
+
+import { useCount } from '../context';
 
 export const Counter = () => {
   const { count } = useCount();
