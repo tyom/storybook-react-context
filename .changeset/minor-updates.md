@@ -20,3 +20,4 @@ Export TypeScript types and improve developer experience
   - Add comprehensive CONTRIBUTING.md documentation
   - Set up automated release process with pre-release support
   - Add support for alpha, beta, and next pre-release channels
+  - Add Husky pre-commit hooks with lint-staged for automated code quality checks
