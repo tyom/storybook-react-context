@@ -1,0 +1,9 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "storybook-react-context": "0.8.0",
+    "react-example": "0.9.0"
+  },
+  "changesets": []
+}
