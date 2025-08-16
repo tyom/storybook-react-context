@@ -1,4 +1,5 @@
 import { mergeConfig } from 'vite';
+
 import clearCachePlugin from './clearCachePlugin';
 
 export default {

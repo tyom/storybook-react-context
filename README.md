@@ -53,7 +53,7 @@ export default {
 ```
 
 NB: Avoid using the same `context` parameter for `reactContext` as in the default export of the story. This will cause a
-maximum call stack size exceeded error. 
+maximum call stack size exceeded error.
 
 ### Options
 
@@ -61,7 +61,7 @@ maximum call stack size exceeded error.
 
 - `context` - The context returned by `React.createContext` to provide for story's components
 - `contextValue` - the value to use for the provider value. If a function is provided, it will be called with the story context as the first argument.
-                   The function can return React hooks such as `useState` of `useReducer` to manage the state in the story definition.
+  The function can return React hooks such as `useState` of `useReducer` to manage the state in the story definition.
 - `contexts` - an array of context options (an object with `context` and `contextValue` properties) to provide multiple contexts for story's components
 
 The decorator options can also be set in story parameters using `reactContext` key:
@@ -81,7 +81,7 @@ const SomeStory = {
       contextValue: { someContextValue: true },
     },
   },
-}
+};
 
 // multiple provider are used wrapping the `MyComponent` component
 const AnotherStory = {
@@ -95,11 +95,11 @@ const AnotherStory = {
         {
           context: SecondContext,
           contextValue: [1, 2, 3],
-        }
-      ]
+        },
+      ],
     },
   },
-}
+};
 ```
 
 The component or the result of the render function will be wrapped with providers setting the value to the result of `contextValue`.

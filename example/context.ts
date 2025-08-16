@@ -25,7 +25,7 @@ export function authReducer(state: AuthState, action: AuthAction) {
 export const useAuth = () => {
   const context = React.useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within a ExampleAuthContext Provider');
+    throw new Error('useAuth must be used within an AuthContext Provider');
   }
   return context;
 };

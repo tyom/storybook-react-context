@@ -3,12 +3,12 @@ import { makeDecorator, useArgs } from 'storybook/preview-api';
 
 type StoryContext = Parameters<Parameters<typeof makeDecorator>[0]['wrapper']>[1];
 
-type ContextOptions<T = unknown> = {
+export type ContextOptions<T = unknown> = {
   contextValue: (context: StoryContext) => T;
   context: React.Context<T>;
 };
 
-interface DecoratorOptions extends Partial<ContextOptions> {
+export interface DecoratorOptions extends Partial<ContextOptions> {
   contexts?: ContextOptions[];
 }
 
@@ -49,30 +49,26 @@ export const withReactContext = makeDecorator({
       );
     }
 
-    return (
-      <>
-        {allContexts.reduceRight(
-          (acc, { context: Context, contextValue }) => {
-            const providerValue =
-              typeof contextValue === 'function'
-                ? contextValue({ ...storyContext, useArgs })
-                : contextValue;
+    return allContexts.reduceRight(
+      (acc, { context: Context, contextValue }) => {
+        const providerValue =
+          typeof contextValue === 'function'
+            ? contextValue({ ...storyContext, useArgs })
+            : contextValue;
 
-            return <Context.Provider value={providerValue}>{acc}</Context.Provider>;
-          },
-          <ContextValues contexts={allContexts}>
-            {(contextValues) =>
-              storyFn({
-                ...storyContext,
-                reactContext: {
-                  values: contextValues,
-                  value: contextValues[contextValues.length - 1],
-                },
-              }) as React.ReactElement
-            }
-          </ContextValues>,
-        )}
-      </>
+        return <Context.Provider value={providerValue}>{acc}</Context.Provider>;
+      },
+      <ContextValues contexts={allContexts}>
+        {(contextValues) =>
+          storyFn({
+            ...storyContext,
+            reactContext: {
+              values: contextValues,
+              value: contextValues[contextValues.length - 1],
+            },
+          }) as React.ReactElement
+        }
+      </ContextValues>,
     );
   },
 });
