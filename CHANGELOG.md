@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.0
+
+### Minor Changes
+
+- [#7](https://github.com/tyom/storybook-react-context/pull/7) [`2180d32`](https://github.com/tyom/storybook-react-context/commit/2180d32a1955cba82f09a13ba23f1c813c218fc0) Thanks [@tyom](https://github.com/tyom)! - Upgrade to Storybook v10
+
 ## 0.9.0
 
 ### Minor Changes
