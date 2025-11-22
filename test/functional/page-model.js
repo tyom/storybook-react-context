@@ -1,5 +1,6 @@
 import { Selector, t } from 'testcafe';
 
+const STORYBOOK_PREVIEW_IFRAME = '#storybook-preview-iframe';
 class Page {
   constructor() {
     this.panelTabs = Selector(
@@ -10,7 +11,7 @@ class Page {
 
   assertTextInPreview(selector, expectedText, assertionOptions) {
     return t
-      .switchToIframe('#storybook-preview-iframe')
+      .switchToIframe(STORYBOOK_PREVIEW_IFRAME)
       .expect(Selector(selector).innerText)
       .eql(expectedText, assertionOptions)
       .switchToMainWindow();
@@ -18,7 +19,7 @@ class Page {
 
   clickInPreview(selector) {
     return t
-      .switchToIframe('#storybook-preview-iframe')
+      .switchToIframe(STORYBOOK_PREVIEW_IFRAME)
       .click(selector)
       .switchToMainWindow();
   }
