@@ -24,7 +24,9 @@ class Page {
   }
 
   selectSidebarItem(title) {
-    const sidebarLink = Selector('#storybook-explorer-tree').find('a').withText(title);
+    const sidebarLink = Selector('#storybook-explorer-tree')
+      .find('button')
+      .withText(title);
     return t.click(sidebarLink);
   }
 
