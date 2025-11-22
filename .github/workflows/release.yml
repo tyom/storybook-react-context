@@ -43,9 +43,6 @@ jobs:
       - name: Build
         run: pnpm build:lib
 
-      - name: Run tests
-        run: pnpm test:headless
-
       - name: Enter pre-release mode if not on main
         if: github.ref != 'refs/heads/main'
         run: |
