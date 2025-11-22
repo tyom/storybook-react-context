@@ -1,6 +1,6 @@
 import { mergeConfig } from 'vite';
 
-import clearCachePlugin from './clearCachePlugin';
+import clearCachePlugin from './clearCachePlugin.js';
 
 export default {
   stories: ['../**/*.stories.@(js|jsx|ts|tsx)'],
